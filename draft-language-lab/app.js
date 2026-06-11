@@ -36,6 +36,10 @@ const families = [
   "injury_medical"
 ];
 
+const draftYearCorrections = {
+  "braylon mullins": 2026
+};
+
 const signalModes = [
   { key: "any", label: "Neutral", shortLabel: "Neutral", hint: "Neutral mention", group: "neutral" },
   { key: "positive_any", label: "Slightly Positive", shortLabel: "Slight", hint: "Some strength language", group: "positive" },
@@ -639,6 +643,7 @@ function buildAllYearsTargetFeed(rows, targetLens) {
     .map((row) => {
       const dataset = classifyDataset(row);
       const playerKey = canonicalPlayerKey(row);
+      const draftYear = correctedDraftYear(row);
       if (dataset === "recent_projection" && Number(row.draft_year) === 2025 && futurePlayerKeys.has(playerKey)) {
         return null;
       }
@@ -649,6 +654,7 @@ function buildAllYearsTargetFeed(rows, targetLens) {
         target_key: targetKey,
         target_value_label: targetConfigs[targetKey]?.label || targetConfigs.xrapm.label,
         target_unit: "xrapm",
+        draft_year: draftYear || row.draft_year,
         player_key: playerKey,
         display_player_name: canonicalPlayerName(row),
         recommended_model: row.feature_set || "old_plus_llm_full",
@@ -761,6 +767,7 @@ function buildRecommendedModelFeed(rows, featureRows, futureComboFlags, targetKe
     .map((row) => {
       const dataset = classifyDataset(row);
       const playerKey = canonicalNameKey(row.actual_player || row.mock_player);
+      const draftYear = correctedDraftYear(row);
       if (dataset === "recent_projection" && Number(row.draft_year) === 2025 && futurePlayerKeys.has(playerKey)) {
         return null;
       }
@@ -777,6 +784,7 @@ function buildRecommendedModelFeed(rows, featureRows, futureComboFlags, targetKe
         target_key: targetKey,
         target_value_label: targetConfigs[targetKey]?.label || targetConfigs.xrapm.label,
         target_unit: "xrapm",
+        draft_year: draftYear || row.draft_year,
         player_key: playerKey,
         recommended_model: row.feature_set || "old_plus_llm_full",
         update_package: "espn_2023_paste_projection_update"
@@ -788,13 +796,21 @@ function buildRecommendedModelFeed(rows, featureRows, futureComboFlags, targetKe
 }
 
 function classifyDataset(row) {
-  const year = Number(row.draft_year);
+  const year = correctedDraftYear(row);
   const status = String(row.status_for_ui || row.prediction_status || row.target_status || "").toLowerCase();
   if (year >= 2026 || parseBool(row.is_future_prediction) === true || status.includes("future")) return "prospective_2026";
   if (status.includes("partial") || parseBool(row.is_partial_recent_projection) === true) return "recent_projection";
   if (status.includes("historical") || status.includes("available") || status.includes("zero_nba")) return "historical";
   if (year >= 2022 && year <= 2025) return "recent_projection";
   return "historical";
+}
+
+function correctedDraftYear(row) {
+  const key = canonicalPlayerKey(row);
+  const corrected = draftYearCorrections[key];
+  if (Number.isFinite(corrected)) return corrected;
+  const year = Number(row.draft_year);
+  return Number.isFinite(year) ? year : NaN;
 }
 
 function findFeatureRow(index, row) {
@@ -820,6 +836,7 @@ function buildFirst5ModelFeed(historicalRows, futureRows, featureRows, futureCom
       ...comboFlags,
       ...row,
       model_feed_dataset: dataset,
+      draft_year: correctedDraftYear(row) || row.draft_year,
       player_key: canonicalNameKey(row.actual_player || row.mock_player),
       recommended_model: row.feature_set || "old_plus_llm_full"
     };
