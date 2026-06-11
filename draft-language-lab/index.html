@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Draft Language Lab</title>
-    <link rel="stylesheet" href="./styles.css?v=combo-preview-panel-xrapm-20260611" />
+    <link rel="stylesheet" href="./styles.css?v=skeleton-loaders-20260611" />
   </head>
   <body>
     <header class="site-header" aria-label="Primary navigation">
@@ -40,7 +40,17 @@
             <span>Expected value curve</span>
             <strong id="hero-preview-count">Loading curve</strong>
           </div>
-          <div id="hero-ev-preview" class="hero-ev-preview" aria-live="polite"></div>
+          <div id="hero-ev-preview" class="hero-ev-preview" aria-live="polite">
+            <div class="hero-ev-chart skeleton-chart" aria-label="Loading expected value curve">
+              <span class="skeleton-line skeleton-line-lg"></span>
+              <span class="skeleton-line skeleton-line-md"></span>
+              <span class="skeleton-line skeleton-line-sm"></span>
+              <span class="skeleton-marker" style="left:18%; top:32%;"></span>
+              <span class="skeleton-marker" style="left:48%; top:52%;"></span>
+              <span class="skeleton-marker" style="left:78%; top:68%;"></span>
+              <span class="skeleton-axis"></span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -56,10 +66,11 @@
         <div>
           <strong>What is xRAPM?</strong>
           <span>
-            xRAPM is a lineup-adjusted impact metric in the RAPM family: it estimates how much a player moves scoring
-            margin while adjusting for teammates, opponents, and context. It usually passes the eye test, sometimes
-            surfaces interesting out-of-left-field impact reads, and works best here as pick-value context rather than
-            a final answer.
+            xRAPM is a line-up adjusted impact metric, as part of the Real Adjusted Plus-Minus family of metrics. It
+            estimates how much a player contributes to a team's scoring margin, while adjusting for their teammates and
+            context. Typically, it passes the eye test, though it can sometimes bring in some out-of-left-field
+            conclusions. Regardless, it's one of the most robust all-in-one metrics in the NBA today that doesn't
+            require tracking data.
           </span>
         </div>
         <a href="https://xrapm.com/" target="_blank" rel="noopener noreferrer">Visit xrapm.com</a>
@@ -132,7 +143,32 @@
                     <th data-sort-th="surplus"><button type="button" class="table-sort-button" data-sort-header="surplus"><span id="result-column-heading">Result</span> <span aria-hidden="true"></span></button></th>
                   </tr>
                 </thead>
-                <tbody id="players-body"></tbody>
+                <tbody id="players-body">
+                  <tr class="loading-row is-skeleton">
+                    <td><span class="skeleton-cell avatar"></span><span class="skeleton-cell name"></span></td>
+                    <td><span class="skeleton-cell short"></span></td>
+                    <td><span class="skeleton-cell short"></span></td>
+                    <td><span class="skeleton-cell tone"></span></td>
+                    <td><span class="skeleton-cell why"></span><span class="skeleton-cell why small"></span></td>
+                    <td><span class="skeleton-cell badge"></span><span class="skeleton-cell result"></span></td>
+                  </tr>
+                  <tr class="loading-row is-skeleton">
+                    <td><span class="skeleton-cell avatar"></span><span class="skeleton-cell name"></span></td>
+                    <td><span class="skeleton-cell short"></span></td>
+                    <td><span class="skeleton-cell short"></span></td>
+                    <td><span class="skeleton-cell tone"></span></td>
+                    <td><span class="skeleton-cell why"></span><span class="skeleton-cell why small"></span></td>
+                    <td><span class="skeleton-cell badge"></span><span class="skeleton-cell result"></span></td>
+                  </tr>
+                  <tr class="loading-row is-skeleton">
+                    <td><span class="skeleton-cell avatar"></span><span class="skeleton-cell name"></span></td>
+                    <td><span class="skeleton-cell short"></span></td>
+                    <td><span class="skeleton-cell short"></span></td>
+                    <td><span class="skeleton-cell tone"></span></td>
+                    <td><span class="skeleton-cell why"></span><span class="skeleton-cell why small"></span></td>
+                    <td><span class="skeleton-cell badge"></span><span class="skeleton-cell result"></span></td>
+                  </tr>
+                </tbody>
               </table>
             </div>
             <div id="pagination-controls" class="pagination-controls" aria-live="polite"></div>
@@ -156,7 +192,18 @@
                   </label>
                 </div>
               </div>
-              <div id="sentiment-scatter" class="sentiment-scatter" aria-live="polite"></div>
+              <div id="sentiment-scatter" class="sentiment-scatter" aria-live="polite">
+                <div class="scatter-skeleton" aria-label="Loading scouting tone scatterplot">
+                  <span class="skeleton-axis horizontal"></span>
+                  <span class="skeleton-axis vertical"></span>
+                  <span class="skeleton-dot" style="left:16%; top:22%;"></span>
+                  <span class="skeleton-dot" style="left:28%; top:70%;"></span>
+                  <span class="skeleton-dot" style="left:43%; top:38%;"></span>
+                  <span class="skeleton-dot" style="left:58%; top:58%;"></span>
+                  <span class="skeleton-dot" style="left:74%; top:30%;"></span>
+                  <span class="skeleton-dot" style="left:88%; top:76%;"></span>
+                </div>
+              </div>
             </section>
 
             <section class="similar-tool" aria-labelledby="similar-title">
@@ -169,7 +216,13 @@
                 <input id="similar-search" list="player-options" type="search" placeholder="AJ Dybantsa, Michael Porter Jr., Cooper Flagg" autocomplete="off" />
                 <datalist id="player-options"></datalist>
               </label>
-              <div id="similar-results" class="similar-results" aria-live="polite"></div>
+              <div id="similar-results" class="similar-results" aria-live="polite">
+                <div class="panel-skeleton" aria-label="Loading similarity finder">
+                  <span class="skeleton-bar wide"></span>
+                  <span class="skeleton-bar"></span>
+                  <span class="skeleton-bar short"></span>
+                </div>
+              </div>
             </section>
           </div>
         </div>
@@ -183,7 +236,21 @@
             <p>View how single traits impact a player's future and how combinations of traits make certain outcomes more likely.</p>
           </div>
         </div>
-        <div id="trait-insights" class="signal-summary-card"></div>
+        <div id="trait-insights" class="signal-summary-card">
+          <div class="signal-skeleton" aria-label="Loading trait and combo signals">
+            <div class="panel-skeleton">
+              <span class="skeleton-bar wide"></span>
+              <span class="skeleton-bar"></span>
+              <span class="skeleton-bar"></span>
+              <span class="skeleton-bar short"></span>
+            </div>
+            <div class="signal-skeleton-list">
+              <span class="skeleton-bar"></span>
+              <span class="skeleton-bar"></span>
+              <span class="skeleton-bar"></span>
+            </div>
+          </div>
+        </div>
         <section class="bucket-success-section" aria-labelledby="bucket-success-title">
           <div class="bucket-success-head">
             <div>
@@ -245,7 +312,30 @@
             <p>Recent and current prospects matched to high-impact two-trait and multi-trait historical combo patterns.</p>
           </div>
         </div>
-        <div id="combo-spotlight-content"></div>
+        <div id="combo-spotlight-content">
+          <div class="combo-spotlight-grid is-loading" aria-label="Loading combo signal cards">
+            <article class="combo-spotlight-card skeleton-card">
+              <span class="skeleton-bar wide"></span>
+              <span class="skeleton-bar short"></span>
+              <div class="skeleton-mini-list">
+                <span class="skeleton-cell avatar"></span>
+                <span class="skeleton-bar"></span>
+                <span class="skeleton-cell avatar"></span>
+                <span class="skeleton-bar short"></span>
+              </div>
+            </article>
+            <article class="combo-spotlight-card skeleton-card">
+              <span class="skeleton-bar wide"></span>
+              <span class="skeleton-bar short"></span>
+              <div class="skeleton-mini-list">
+                <span class="skeleton-cell avatar"></span>
+                <span class="skeleton-bar"></span>
+                <span class="skeleton-cell avatar"></span>
+                <span class="skeleton-bar short"></span>
+              </div>
+            </article>
+          </div>
+        </div>
       </section>
 
       <section id="model-notes" class="model-notes" aria-labelledby="notes-title">
@@ -263,6 +353,6 @@
 
     <script src="./vendor/gsap/gsap.min.js" defer></script>
     <script src="./vendor/gsap/Flip.min.js" defer></script>
-    <script src="./app.js?v=cam-carr-source-weighted-20260611" defer></script>
+    <script src="./app.js?v=skeleton-loaders-xrapm-copy-20260611" defer></script>
   </body>
 </html>

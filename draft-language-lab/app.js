@@ -1399,7 +1399,93 @@ function normalizePickEvCurve(rows) {
 }
 
 function renderLoading() {
-  $("#players-body").innerHTML = `<tr class="loading-row"><td colspan="6">Loading player profiles.</td></tr>`;
+  $("#hero-preview-count").textContent = "Loading curve";
+  $("#hero-ev-preview").innerHTML = heroEvSkeletonTemplate();
+  $("#players-body").innerHTML = playerTableSkeletonRows(6);
+  $("#result-caption").textContent = "Loading players.";
+  $("#sentiment-scatter").innerHTML = scatterSkeletonTemplate();
+  $("#similar-results").innerHTML = panelSkeletonTemplate(3);
+  $("#trait-insights").innerHTML = traitInsightSkeletonTemplate();
+  $("#combo-spotlight-content").innerHTML = comboSpotlightSkeletonTemplate();
+}
+
+function heroEvSkeletonTemplate() {
+  return `
+    <div class="hero-ev-chart skeleton-chart" aria-label="Loading expected value curve">
+      <span class="skeleton-line skeleton-line-lg"></span>
+      <span class="skeleton-line skeleton-line-md"></span>
+      <span class="skeleton-line skeleton-line-sm"></span>
+      <span class="skeleton-marker" style="left:18%; top:32%;"></span>
+      <span class="skeleton-marker" style="left:48%; top:52%;"></span>
+      <span class="skeleton-marker" style="left:78%; top:68%;"></span>
+      <span class="skeleton-axis"></span>
+    </div>
+  `;
+}
+
+function playerTableSkeletonRows(count = 6) {
+  return Array.from({ length: count }, () => `
+    <tr class="loading-row is-skeleton">
+      <td><span class="skeleton-cell avatar"></span><span class="skeleton-cell name"></span></td>
+      <td><span class="skeleton-cell short"></span></td>
+      <td><span class="skeleton-cell short"></span></td>
+      <td><span class="skeleton-cell tone"></span></td>
+      <td><span class="skeleton-cell why"></span><span class="skeleton-cell why small"></span></td>
+      <td><span class="skeleton-cell badge"></span><span class="skeleton-cell result"></span></td>
+    </tr>
+  `).join("");
+}
+
+function scatterSkeletonTemplate() {
+  return `
+    <div class="scatter-skeleton" aria-label="Loading scouting tone scatterplot">
+      <span class="skeleton-axis horizontal"></span>
+      <span class="skeleton-axis vertical"></span>
+      ${Array.from({ length: 24 }, (_, index) => `
+        <span class="skeleton-dot" style="left:${8 + ((index * 37) % 86)}%; top:${12 + ((index * 23) % 74)}%;"></span>
+      `).join("")}
+    </div>
+  `;
+}
+
+function panelSkeletonTemplate(rows = 3) {
+  return `
+    <div class="panel-skeleton" aria-label="Loading section">
+      ${Array.from({ length: rows }, (_, index) => `
+        <span class="skeleton-bar ${index === 0 ? "wide" : index === rows - 1 ? "short" : ""}"></span>
+      `).join("")}
+    </div>
+  `;
+}
+
+function traitInsightSkeletonTemplate() {
+  return `
+    <div class="signal-skeleton" aria-label="Loading trait and combo signals">
+      ${panelSkeletonTemplate(4)}
+      <div class="signal-skeleton-list">
+        ${Array.from({ length: 5 }, () => `<span class="skeleton-bar"></span>`).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function comboSpotlightSkeletonTemplate() {
+  return `
+    <div class="combo-spotlight-grid is-loading" aria-label="Loading combo signal cards">
+      ${Array.from({ length: 2 }, () => `
+        <article class="combo-spotlight-card skeleton-card">
+          <span class="skeleton-bar wide"></span>
+          <span class="skeleton-bar short"></span>
+          <div class="skeleton-mini-list">
+            <span class="skeleton-cell avatar"></span>
+            <span class="skeleton-bar"></span>
+            <span class="skeleton-cell avatar"></span>
+            <span class="skeleton-bar short"></span>
+          </div>
+        </article>
+      `).join("")}
+    </div>
+  `;
 }
 
 function renderApp() {

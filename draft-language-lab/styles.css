@@ -280,6 +280,95 @@ button {
   min-width: 0;
 }
 
+.skeleton-chart,
+.scatter-skeleton,
+.panel-skeleton,
+.signal-skeleton,
+.skeleton-card {
+  position: relative;
+}
+
+.skeleton-cell,
+.skeleton-bar,
+.skeleton-line,
+.skeleton-marker,
+.skeleton-axis,
+.skeleton-dot {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    oklch(0.890 0.012 82 / 0.72),
+    oklch(0.985 0.004 82 / 0.92),
+    oklch(0.890 0.012 82 / 0.72)
+  );
+  background-size: 220% 100%;
+  animation: skeletonShimmer 1250ms ease-in-out infinite;
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    background-position: 120% 0;
+  }
+
+  100% {
+    background-position: -120% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-cell,
+  .skeleton-bar,
+  .skeleton-line,
+  .skeleton-marker,
+  .skeleton-axis,
+  .skeleton-dot {
+    animation: none;
+  }
+}
+
+.skeleton-line {
+  position: absolute;
+  left: 8%;
+  height: 4px;
+  transform: rotate(-12deg);
+  transform-origin: left center;
+}
+
+.skeleton-line-lg {
+  top: 32%;
+  width: 76%;
+}
+
+.skeleton-line-md {
+  top: 49%;
+  width: 62%;
+}
+
+.skeleton-line-sm {
+  top: 66%;
+  width: 48%;
+}
+
+.skeleton-marker {
+  position: absolute;
+  width: 116px;
+  height: 52px;
+  transform: translate(-50%, -50%);
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-chart .skeleton-axis {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 24px;
+  height: 10px;
+  border-radius: 999px;
+}
+
 .hero-ev-chart {
   position: relative;
   min-height: 390px;
@@ -3010,6 +3099,138 @@ mark.caveat {
 .empty-row td {
   color: var(--muted);
   padding: 24px 10px;
+}
+
+.loading-row.is-skeleton td {
+  height: 94px;
+  vertical-align: middle;
+}
+
+.loading-row.is-skeleton td:first-child {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.skeleton-cell.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.skeleton-cell.name {
+  width: min(150px, 70%);
+  height: 16px;
+}
+
+.skeleton-cell.short {
+  width: 46px;
+  height: 16px;
+}
+
+.skeleton-cell.tone {
+  width: min(260px, 100%);
+  height: 12px;
+}
+
+.skeleton-cell.why {
+  width: min(420px, 100%);
+  height: 12px;
+  margin-bottom: 10px;
+}
+
+.skeleton-cell.why.small {
+  width: min(320px, 74%);
+  margin-bottom: 0;
+}
+
+.skeleton-cell.badge {
+  width: 126px;
+  height: 30px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.skeleton-cell.result {
+  width: 160px;
+  height: 12px;
+}
+
+.scatter-skeleton {
+  min-height: 430px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: oklch(1 0 0 / 0.16);
+  overflow: hidden;
+}
+
+.scatter-skeleton .skeleton-axis.horizontal {
+  position: absolute;
+  left: 8%;
+  right: 7%;
+  bottom: 13%;
+  height: 8px;
+}
+
+.scatter-skeleton .skeleton-axis.vertical {
+  position: absolute;
+  left: 8%;
+  top: 10%;
+  bottom: 13%;
+  width: 8px;
+}
+
+.skeleton-dot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+.panel-skeleton,
+.signal-skeleton {
+  display: grid;
+  gap: 14px;
+  padding: 18px 0;
+}
+
+.skeleton-bar {
+  height: 14px;
+  width: min(420px, 100%);
+}
+
+.skeleton-bar.wide {
+  width: min(580px, 100%);
+}
+
+.skeleton-bar.short {
+  width: min(220px, 58%);
+}
+
+.signal-skeleton-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.skeleton-card {
+  min-height: 270px;
+  pointer-events: none;
+}
+
+.skeleton-mini-list {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-top: 28px;
+}
+
+.skeleton-mini-list .skeleton-cell.avatar {
+  width: 34px;
+  height: 34px;
 }
 
 @media (max-width: 1080px) {
