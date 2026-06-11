@@ -1,0 +1,38 @@
+{
+  "created_at": "20260610_184420",
+  "row_count_original_entries": 43,
+  "unique_player_keys": 39,
+  "prefilled_rows_with_usable_phrase_tone": 5,
+  "rows_still_needing_manual_text": 38,
+  "sentence_rows_found": 76,
+  "source_status": [
+    {
+      "source_group": "future_2026_llm_sentence_labels_packaged_083357",
+      "path": "rsci_nlp_package_staging\\nlp_draft_bias_research\\outputs_llm_enhanced\\first5_main_model_20260609_204935\\sentence_labels_and_ngrams\\future_2026_llm_sentence_labels\\sentenceish_llm_enhanced_mistral_latest_canonicalized_llm_2026_urls_mistral_20260609_083357.csv",
+      "exists": true
+    },
+    {
+      "source_group": "future_2026_llm_sentence_labels_newer_085033",
+      "path": "rsci_nlp_package_staging\\nlp_draft_bias_research\\outputs_llm_enhanced\\llm_2026_urls_mistral_20260609_085033\\sentenceish_llm_enhanced_mistral_latest_canonicalized_llm_2026_urls_mistral_20260609_085033.csv",
+      "exists": true
+    },
+    {
+      "source_group": "historical_llm_sentence_labels",
+      "path": "rsci_nlp_package_staging\\nlp_draft_bias_research\\outputs_llm_enhanced\\first5_main_model_20260609_204935\\sentence_labels_and_ngrams\\historical_llm_sentence_labels\\sentenceish_llm_enhanced_mistral_latest_historical_plus_recovered_sources.csv",
+      "exists": true
+    },
+    {
+      "source_group": "espn_2023_paste_llm_sentence_labels",
+      "path": "rsci_nlp_package_staging\\nlp_draft_bias_research\\outputs_llm_enhanced\\espn_2023_paste_projection_update_20260610_075852\\espn_2023_paste_llm_enhanced_sentences.csv",
+      "exists": true
+    }
+  ],
+  "outputs": [
+    "no_phrase_tone_players_phrase_tone_patch.csv",
+    "no_phrase_tone_prefilled_from_existing_llm.csv",
+    "no_phrase_tone_manual_fill_template.csv",
+    "no_phrase_tone_sentence_rows_found.csv",
+    "no_phrase_tone_input_player_list.csv",
+    "README_NO_PHRASE_TONE_UPDATE_PACKET.md"
+  ]
+}

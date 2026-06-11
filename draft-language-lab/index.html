@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Draft Language Lab</title>
+    <link rel="stylesheet" href="./styles.css?v=combo-preview-panel-xrapm-20260611" />
+  </head>
+  <body>
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="#top">Draft Language Analysis</a>
+      <nav class="nav-links" aria-label="Page sections">
+        <a href="#explorer">Explorer</a>
+        <a href="#traits">Traits</a>
+        <a href="#model-notes">Model notes</a>
+      </nav>
+      <a class="nav-button" href="https://www.linkedin.com/in/jacob-sutton-827766224/" target="_blank" rel="noopener noreferrer">Made by Jacob Sutton</a>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <h1 id="hero-title">Can <span class="hero-highlight">scouting reports</span> predict NBA outcomes?</h1>
+          <p>
+            Using Natural Language Processing, LLMs, and sentiment analysis to identify player traits and compare them
+            to outcomes, plus future projections for 2026 prospects.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-button" href="#explorer">
+              Explore the data
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M12 5v14m0 0 6-6m-6 6-6-6" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-preview" aria-label="Data preview">
+          <div class="preview-head">
+            <span>Expected value curve</span>
+            <strong id="hero-preview-count">Loading curve</strong>
+          </div>
+          <div id="hero-ev-preview" class="hero-ev-preview" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="model-caveat-strip" aria-label="Model caveat">
+        <strong>The model is best used for downside detection.</strong>
+        <span>
+          It is not a definitive ranking or a claim that one player is better than another; it is a way to see how
+          repeated scouting language has historically lined up with NBA outcomes.
+        </span>
+      </section>
+
+      <section class="xrapm-explainer" aria-label="xRAPM explainer">
+        <div>
+          <strong>What is xRAPM?</strong>
+          <span>
+            xRAPM is a lineup-adjusted impact metric in the RAPM family: it estimates how much a player moves scoring
+            margin while adjusting for teammates, opponents, and context. It usually passes the eye test, sometimes
+            surfaces interesting out-of-left-field impact reads, and works best here as pick-value context rather than
+            a final answer.
+          </span>
+        </div>
+        <a href="https://xrapm.com/" target="_blank" rel="noopener noreferrer">Visit xrapm.com</a>
+      </section>
+
+      <section id="explorer" class="explorer-section" aria-label="Player explorer">
+        <div class="section-heading">
+          <div>
+            <p>Pick your traits, sort by sentiment, and analyze players going back to 2009.</p>
+          </div>
+        </div>
+
+        <div class="explorer-layout">
+          <div class="results-column">
+            <div class="table-control-bar">
+              <div class="dataset-quick-filter" aria-label="Dataset mode">
+                <span>Dataset</span>
+                <div class="segmented dataset-toggle" role="group" aria-label="Dataset mode">
+                  <button type="button" data-dataset="all" class="is-active">All</button>
+                  <button type="button" data-dataset="historical">Historical</button>
+                  <button type="button" data-dataset="recent_projection">2023-25 actual-to-date</button>
+                  <button type="button" data-dataset="prospective_2026">2026 projections</button>
+                </div>
+              </div>
+              <div class="search-wrap">
+                <label for="search">Search</label>
+                <input id="search" type="search" placeholder="Player" autocomplete="off" />
+              </div>
+              <div class="filter-shell">
+                <button type="button" id="filter-toggle" class="filter-toggle" aria-expanded="false" aria-controls="filter-rail">Filters</button>
+                <aside id="filter-rail" class="filter-rail" aria-label="Explorer filters">
+                  <div class="filter-group trait-builder-group">
+                    <div id="trait-builder" class="trait-builder" role="group" aria-label="Trait stack"></div>
+                  </div>
+                </aside>
+              </div>
+              <div id="active-stack" class="active-stack" aria-live="polite"></div>
+            </div>
+            <section class="player-results" aria-labelledby="matched-title">
+            <div class="panel-heading">
+              <div>
+                <h3 id="matched-title">Matched players</h3>
+                <p id="result-caption">Loading players.</p>
+              </div>
+              <label class="sort-control">
+                Sort
+                <select id="sort">
+                  <option value="surplus_desc" selected>Result: highest first</option>
+                  <option value="surplus_asc">Result: lowest first</option>
+                  <option value="name_asc">Player: A-Z</option>
+                  <option value="name_desc">Player: Z-A</option>
+                  <option value="year_desc">Year: newest first</option>
+                  <option value="year_asc">Year: oldest first</option>
+                  <option value="pick_asc">Pick: highest first</option>
+                  <option value="pick_desc">Pick: lowest first</option>
+                  <option value="tone_desc">Scouting tone: positive first</option>
+                  <option value="tone_asc">Scouting tone: negative first</option>
+                </select>
+              </label>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th data-sort-th="name"><button type="button" class="table-sort-button" data-sort-header="name">Player <span aria-hidden="true"></span></button></th>
+                    <th data-sort-th="year"><button type="button" class="table-sort-button" data-sort-header="year">Year <span aria-hidden="true"></span></button></th>
+                    <th data-sort-th="pick"><button type="button" class="table-sort-button" data-sort-header="pick">Pick <span aria-hidden="true"></span></button></th>
+                    <th data-sort-th="tone"><button type="button" class="table-sort-button" data-sort-header="tone">Scouting tone <span aria-hidden="true"></span></button></th>
+                    <th>Why</th>
+                    <th data-sort-th="surplus"><button type="button" class="table-sort-button" data-sort-header="surplus"><span id="result-column-heading">Result</span> <span aria-hidden="true"></span></button></th>
+                  </tr>
+                </thead>
+                <tbody id="players-body"></tbody>
+              </table>
+            </div>
+            <div id="pagination-controls" class="pagination-controls" aria-live="polite"></div>
+            </section>
+
+            <section class="sentiment-scatter-section" aria-labelledby="sentiment-scatter-title">
+              <div class="scatter-heading">
+                <div>
+                  <h3 id="sentiment-scatter-title">Scouting Tone vs Result</h3>
+                  <p>Each dot is a player. Left means more negative scouting language; higher means better xRAPM value versus pick expectation.</p>
+                </div>
+                <div class="scatter-controls">
+                  <label class="scatter-combo-control">
+                    Combo filter
+                    <select id="scatter-combo-filter" aria-label="Filter scatterplot by combo signal"></select>
+                  </label>
+                  <span id="scatter-combo-lift" class="scatter-combo-lift" aria-live="polite"></span>
+                  <label class="scatter-year-control">
+                    Year
+                    <select id="scatter-year-filter" aria-label="Filter scatterplot by draft year"></select>
+                  </label>
+                </div>
+              </div>
+              <div id="sentiment-scatter" class="sentiment-scatter" aria-live="polite"></div>
+            </section>
+
+            <section class="similar-tool" aria-labelledby="similar-title">
+              <div>
+                <h3 id="similar-title">Player Similarity Finder</h3>
+                <p>Search a player and find the most similar trait combination. Note: this does not take into account player positions, height, weight, or anything besides pure sentiment.</p>
+              </div>
+              <label class="similar-search">
+                Player
+                <input id="similar-search" list="player-options" type="search" placeholder="AJ Dybantsa, Michael Porter Jr., Cooper Flagg" autocomplete="off" />
+                <datalist id="player-options"></datalist>
+              </label>
+              <div id="similar-results" class="similar-results" aria-live="polite"></div>
+            </section>
+          </div>
+        </div>
+
+      </section>
+
+      <section id="traits" class="insight-section" aria-labelledby="traits-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="traits-title">Combos and Traits</h2>
+            <p>View how single traits impact a player's future and how combinations of traits make certain outcomes more likely.</p>
+          </div>
+        </div>
+        <div id="trait-insights" class="signal-summary-card"></div>
+        <section class="bucket-success-section" aria-labelledby="bucket-success-title">
+          <div class="bucket-success-head">
+            <div>
+              <h3 id="bucket-success-title">Bucket-Based Success Rates</h3>
+              <p>How players performed when their scouting language leaned more positive or more risk-heavy.</p>
+            </div>
+          </div>
+          <div class="bucket-success-table-wrap">
+            <table class="bucket-success-table">
+              <thead>
+                <tr>
+                  <th>Positive-minus-risk share bucket</th>
+                  <th>Avg surplus</th>
+                  <th>Bust / major underperform</th>
+                  <th>Big overperform</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Most risk-heavy</td>
+                  <td>-0.33</td>
+                  <td>44.3%</td>
+                  <td>23.4%</td>
+                </tr>
+                <tr>
+                  <td>Slightly risk-heavy</td>
+                  <td>+0.06</td>
+                  <td>35.0%</td>
+                  <td>30.6%</td>
+                </tr>
+                <tr>
+                  <td>Balanced-ish</td>
+                  <td>+0.05</td>
+                  <td>39.5%</td>
+                  <td>31.2%</td>
+                </tr>
+                <tr>
+                  <td>Slightly positive</td>
+                  <td>+0.36</td>
+                  <td>28.1%</td>
+                  <td>40.7%</td>
+                </tr>
+                <tr>
+                  <td>Most positive</td>
+                  <td>+0.27</td>
+                  <td>26.5%</td>
+                  <td>40.1%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="combo-spotlight" class="combo-spotlight-section" aria-labelledby="combo-spotlight-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="combo-spotlight-title">2025 and 2026 Prospects by Combo Signal</h2>
+            <p>Recent and current prospects matched to high-impact two-trait and multi-trait historical combo patterns.</p>
+          </div>
+        </div>
+        <div id="combo-spotlight-content"></div>
+      </section>
+
+      <section id="model-notes" class="model-notes" aria-labelledby="notes-title">
+        <h2 id="notes-title">What this model is for</h2>
+        <p class="model-intro">
+          This model is not to make definitive predictions, nor is it to say that one player is better than the other.
+          It is simply to gain perspective on how what scouts say has potentially impacted what players do in the league.
+        </p>
+      </section>
+    </main>
+
+    <template id="avatar-template">
+      <span class="avatar-fallback" aria-hidden="true"></span>
+    </template>
+
+    <script src="./vendor/gsap/gsap.min.js" defer></script>
+    <script src="./vendor/gsap/Flip.min.js" defer></script>
+    <script src="./app.js?v=cam-carr-source-weighted-20260611" defer></script>
+  </body>
+</html>
